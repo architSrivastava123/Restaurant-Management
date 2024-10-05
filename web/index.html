@@ -92,12 +92,12 @@
         <div class="form-group">
             <label for="orderType">Order Type</label>
             <select id="orderType">
-                <option value="dine-in">Dine-In</option>
-                <option value="take-out">Take-Out</option>
-                <option value="delivery">Delivery</option>
+                <option value="Dine-In">Dine-In</option>
+                <option value="Take-Out">Take-Out</option>
+                <option value="Delivery">Delivery</option>
             </select>
         </div>
-        <button type="button">Submit Order</button>
+        <button type="button" onclick="submitOrder()">Submit Order</button>
     </section>
 
     <section id="reservations">
@@ -114,7 +114,7 @@
             <label for="guests">Number of Guests</label>
             <input type="number" id="guests" placeholder="Enter Number of Guests">
         </div>
-        <button type="button">Reserve Table</button>
+        <button type="button" onclick="reserveTable()">Reserve Table</button>
     </section>
 
     <section id="inventory">
@@ -127,7 +127,7 @@
             <label for="quantity">Quantity</label>
             <input type="number" id="quantity" placeholder="Enter Quantity">
         </div>
-        <button type="button">Add to Inventory</button>
+        <button type="button" onclick="addInventory()">Add to Inventory</button>
     </section>
 
     <section id="menu">
@@ -138,9 +138,9 @@
         </div>
         <div class="form-group">
             <label for="menuPrice">Price</label>
-            <input type="number" id="menuPrice" placeholder="Enter Price">
+            <input type="number" id="menuPrice" placeholder="Enter Price" step="0.01">
         </div>
-        <button type="button">Add Menu Item</button>
+        <button type="button" onclick="addMenuItem()">Add Menu Item</button>
     </section>
 
     <section id="feedback">
@@ -157,15 +157,225 @@
             <label for="rating">Rating (1-5)</label>
             <input type="number" id="rating" min="1" max="5" placeholder="Enter Rating">
         </div>
-        <button type="button">Submit Feedback</button>
+        <button type="button" onclick="submitFeedback()">Submit Feedback</button>
     </section>
 
     <section id="reports">
         <h2>Reports and Analytics</h2>
         <p>Generate and view various reports here...</p>
-        <!-- Add report generation features here -->
+        <!-- You can add functionality for reports as needed -->
     </section>
 </main>
+
+<script>
+    const API_BASE_URL = "http://20.244.16.42:8000";
+
+    async function submitOrder() {
+        const customerName = document.getElementById('customerName').value.trim();
+        const orderType = document.getElementById('orderType').value;
+
+        if (!customerName) {
+            alert("Please enter the customer name.");
+            return;
+        }
+
+        const data = {
+            customer_name: customerName,
+            order_type: orderType
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/order/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert("Order submitted successfully!");
+                console.log(result);
+                // Optionally, reset the form
+                document.getElementById('customerName').value = '';
+                document.getElementById('orderType').value = 'Dine-In';
+            } else {
+                const error = await response.text();
+                alert(`Failed to submit order: ${error}`);
+            }
+        } catch (error) {
+            console.error('Error submitting order:', error);
+            alert("An error occurred while submitting the order.");
+        }
+    }
+
+    async function reserveTable() {
+        const reservationName = document.getElementById('reservationName').value.trim();
+        const reservationDate = document.getElementById('reservationDate').value;
+        const guests = document.getElementById('guests').value;
+
+        if (!reservationName || !reservationDate || !guests) {
+            alert("Please fill in all reservation details.");
+            return;
+        }
+
+        const data = {
+            customer_name: reservationName,
+            reservation_date: reservationDate,
+            number_of_guests: parseInt(guests)
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/reservation/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert("Table reserved successfully!");
+                console.log(result);
+                // Optionally, reset the form
+                document.getElementById('reservationName').value = '';
+                document.getElementById('reservationDate').value = '';
+                document.getElementById('guests').value = '';
+            } else {
+                const error = await response.text();
+                alert(`Failed to reserve table: ${error}`);
+            }
+        } catch (error) {
+            console.error('Error reserving table:', error);
+            alert("An error occurred while reserving the table.");
+        }
+    }
+
+    async function addInventory() {
+        const itemName = document.getElementById('itemName').value.trim();
+        const quantity = document.getElementById('quantity').value;
+
+        if (!itemName || !quantity) {
+            alert("Please enter both item name and quantity.");
+            return;
+        }
+
+        const data = {
+            item_name: itemName,
+            quantity: parseInt(quantity)
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/inventory/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert("Item added to inventory successfully!");
+                console.log(result);
+                // Optionally, reset the form
+                document.getElementById('itemName').value = '';
+                document.getElementById('quantity').value = '';
+            } else {
+                const error = await response.text();
+                alert(`Failed to add inventory: ${error}`);
+            }
+        } catch (error) {
+            console.error('Error adding inventory:', error);
+            alert("An error occurred while adding to inventory.");
+        }
+    }
+
+    async function addMenuItem() {
+        const menuItemName = document.getElementById('menuItemName').value.trim();
+        const menuPrice = document.getElementById('menuPrice').value;
+
+        if (!menuItemName || !menuPrice) {
+            alert("Please enter both menu item name and price.");
+            return;
+        }
+
+        const data = {
+            menu_item_name: menuItemName,
+            price: parseFloat(menuPrice)
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/menu/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert("Menu item added successfully!");
+                console.log(result);
+                // Optionally, reset the form
+                document.getElementById('menuItemName').value = '';
+                document.getElementById('menuPrice').value = '';
+            } else {
+                const error = await response.text();
+                alert(`Failed to add menu item: ${error}`);
+            }
+        } catch (error) {
+            console.error('Error adding menu item:', error);
+            alert("An error occurred while adding the menu item.");
+        }
+    }
+
+    async function submitFeedback() {
+        const feedbackName = document.getElementById('feedbackName').value.trim();
+        const comments = document.getElementById('comments').value.trim();
+        const rating = document.getElementById('rating').value;
+
+        if (!feedbackName || !rating) {
+            alert("Please enter your name and rating.");
+            return;
+        }
+
+        const data = {
+            customer_name: feedbackName,
+            comments: comments || null,
+            rating: parseInt(rating)
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/feedback/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert("Feedback submitted successfully!");
+                console.log(result);
+                // Optionally, reset the form
+                document.getElementById('feedbackName').value = '';
+                document.getElementById('comments').value = '';
+                document.getElementById('rating').value = '';
+            } else {
+                const error = await response.text();
+                alert(`Failed to submit feedback: ${error}`);
+            }
+        } catch (error) {
+            console.error('Error submitting feedback:', error);
+            alert("An error occurred while submitting feedback.");
+        }
+    }
+</script>
 
 </body>
 </html>
