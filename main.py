@@ -2,9 +2,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import date
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+# Add CORS middleware to allow requests from different origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins, you can restrict this to specific domains
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 # Order Management
 class Order(BaseModel):
     customer_name: str = Field(..., description="Enter Customer Name")
@@ -13,7 +22,6 @@ class Order(BaseModel):
 @app.post("/order/")
 async def submit_order(order: Order):
     return {"message": "Order submitted successfully", "data": order}
-
 
 # Table Reservations
 class Reservation(BaseModel):
