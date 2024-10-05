@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        nav {
+            margin: 15px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #343a40;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Restaurant Management System</h1>
+    <nav>
+        <a href="#orders">Orders</a>
+        <a href="#reservations">Reservations</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#menu">Menu</a>
+        <a href="#feedback">Feedback</a>
+        <a href="#reports">Reports</a>
+    </nav>
+</header>
+
+<main>
+    <section id="orders">
+        <h2>Order Management</h2>
+        <div class="form-group">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" placeholder="Enter Customer Name">
+        </div>
+        <div class="form-group">
+            <label for="orderType">Order Type</label>
+            <select id="orderType">
+                <option value="dine-in">Dine-In</option>
+                <option value="take-out">Take-Out</option>
+                <option value="delivery">Delivery</option>
+            </select>
+        </div>
+        <button type="button">Submit Order</button>
+    </section>
+
+    <section id="reservations">
+        <h2>Table Reservations</h2>
+        <div class="form-group">
+            <label for="reservationName">Customer Name</label>
+            <input type="text" id="reservationName" placeholder="Enter Customer Name">
+        </div>
+        <div class="form-group">
+            <label for="reservationDate">Date</label>
+            <input type="date" id="reservationDate">
+        </div>
+        <div class="form-group">
+            <label for="guests">Number of Guests</label>
+            <input type="number" id="guests" placeholder="Enter Number of Guests">
+        </div>
+        <button type="button">Reserve Table</button>
+    </section>
+
+    <section id="inventory">
+        <h2>Inventory Management</h2>
+        <div class="form-group">
+            <label for="itemName">Item Name</label>
+            <input type="text" id="itemName" placeholder="Enter Item Name">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" placeholder="Enter Quantity">
+        </div>
+        <button type="button">Add to Inventory</button>
+    </section>
+
+    <section id="menu">
+        <h2>Menu Management</h2>
+        <div class="form-group">
+            <label for="menuItemName">Menu Item Name</label>
+            <input type="text" id="menuItemName" placeholder="Enter Menu Item Name">
+        </div>
+        <div class="form-group">
+            <label for="menuPrice">Price</label>
+            <input type="number" id="menuPrice" placeholder="Enter Price">
+        </div>
+        <button type="button">Add Menu Item</button>
+    </section>
+
+    <section id="feedback">
+        <h2>Customer Feedback</h2>
+        <div class="form-group">
+            <label for="feedbackName">Customer Name</label>
+            <input type="text" id="feedbackName" placeholder="Enter Customer Name">
+        </div>
+        <div class="form-group">
+            <label for="comments">Comments</label>
+            <input type="text" id="comments" placeholder="Enter Comments">
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating (1-5)</label>
+            <input type="number" id="rating" min="1" max="5" placeholder="Enter Rating">
+        </div>
+        <button type="button">Submit Feedback</button>
+    </section>
+
+    <section id="reports">
+        <h2>Reports and Analytics</h2>
+        <p>Generate and view various reports here...</p>
+        <!-- Add report generation features here -->
+    </section>
+</main>
+
+</body>
+</html>
